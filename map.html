@@ -1,82 +1,74 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"/>
 
-<title>近くに何がある？</title>
-
-<link rel="apple-touch-icon" href="app-icon.png"/>
-<meta property="og:image" content="ogp-image.jpg"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-<script src="./leaf.js"></script>
-<link rel="stylesheet" href="./style.css"/>
-<script src="https://fukuno.jig.jp/fukuno.js"></script>
-<script src="./sparql.js"></script>
-<script src="./comm.js"></script>
-<script>
-"use strict"
-
-var map
-
-window.onload = function() {
-	map = initMap('mapid')
-	map.setZoom(12)
-	map.panTo([ 35.943560,136.188917 ]) // 鯖江駅
-
-	var current = map.addIcon(35.929991,136.186429, "現在地", "icon-walking.png", 64, 64)
-
-	var firstflg = true
-	navigator.geolocation.watchPosition(function(gpos) {
-		const pos = [ gpos.coords.latitude, gpos.coords.longitude ]
-		current.setLatLng(pos)
-		map.panTo(pos)
-	}, function() {
-	})
-}
-
-var icons = [];
-
-function myCheck() {
-    let cnt = 0;
-	var delta = .05
-	var p = map.getCenter()
-	for( var i =0; i < icons.length; i++ ){
-		map.removeLayer( icons[i] )
-	}
-	icons = [];
-	for( let idx = 0; idx < document.form1.category.length; idx++ ) {
-        if( document.form1.category[idx].checked ) {
-			cnt = cnt + 1;
+	<title>近くに何がある？</title>
 	
-			var que = replaceQuery( arrayQuery[idx][0], p, delta )
-			querySPARQL(que, function(data) {
-				var items = data.results.bindings
-				for (var i = 0; i < items.length; i++) {
-					var item = items[i]
-					icons.push( map.addIcon(item.lat.value, item.lng.value, item.name.value, arrayQuery[idx][1], 32, 32) )
-				}
-			})
-			
-        }
-    }
-    //alert(  cnt + "個のボタンおしたよ！");
-}
-</script>
-<style>
-
-body { margin: 0; font-family: sans-serif; text-align: center; }
-h1 { font-size: 5vw; margin: 0; }
-form { font-size: 25px; }
-#mapid { height: 50vh; }
-
-</style></head><body>
-
-<h1>近くにある施設は・・・</h1>
-<div id="mapid"></div>
-<form name="form1">
-	<input type="checkbox" name="category" value="school">学校
-	<input type="checkbox" name="category" value="koban">警察
-	<input type="checkbox" name="category" value="hospital">病院
-	<input type="checkbox" name="category" value="library">図書館
-	<input type="checkbox" name="category" value="station">駅
-	<input type="button" value="選択" onclick="myCheck();">
-</form>
-</body></html>
+	<link rel="apple-touch-icon" href="app-icon.png"/>
+	<meta property="og:image" content="ogp-image.jpg"/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+	<script src="./leaf.js"></script>
+	<link rel="stylesheet" href="./style.css"/>
+	<script src="https://fukuno.jig.jp/fukuno.js"></script>
+	<script src="./sparql.js"></script>
+	<script src="./comm.js"></script>
+	<script>
+	"use strict"
+	var map
+	window.onload = function() {
+		map = initMap('mapid')
+		map.setZoom(12)
+		map.panTo([ 35.943560,136.188917 ]) // 鯖江駅
+		var current = map.addIcon(35.929991,136.186429, "現在地", "icon-walking.png", 64, 64)
+		var firstflg = true
+		navigator.geolocation.watchPosition(function(gpos) {
+			const pos = [ gpos.coords.latitude, gpos.coords.longitude ]
+			current.setLatLng(pos)
+			map.panTo(pos)
+		}, function() {
+		})
+	}
+	var icons = [];
+	function myCheck() {
+		//let cnt = 0;
+		var delta = .05
+		var p = map.getCenter()
+		for( var i =0; i < icons.length; i++ ){
+			map.removeLayer( icons[i] )
+		}
+		icons = [];
+		for( let idx = 0; idx < document.form1.category.length; idx++ ) {
+			if( document.form1.category[idx].checked ) {
+				//cnt = cnt + 1;
+		
+				var que = replaceQuery( arrayQuery[idx][0], p, delta )
+				querySPARQL(que, function(data) {
+					var items = data.results.bindings
+					for (var i = 0; i < items.length; i++) {
+						var item = items[i]
+						icons.push( map.addIcon(item.lat.value, item.lng.value, item.name.value, arrayQuery[idx][1], 32, 32) )
+					}
+				})
+				
+			}
+		}
+		//alert(  cnt + "個のボタンおしたよ！");
+	}
+	</script>
+	<style>
+	body { margin: 0; font-family: sans-serif; text-align: center; }
+	h1 { font-size: 5vw; margin: 0; }
+	form { font-size: 25px; }
+	#mapid { height: 50vh; }
+	</style></head><body>
+	
+	<h1>近くにある施設は・・・</h1>
+	<div id="mapid"></div>
+	<form name="form1">
+		<input type="checkbox" name="category" value="school">学校
+		<input type="checkbox" name="category" value="koban">警察
+		<input type="checkbox" name="category" value="hospital">病院
+		<input type="checkbox" name="category" value="library">図書館
+		<input type="checkbox" name="category" value="station">駅
+		<input type="button" value="選択" onclick="myCheck();">
+	</form>
+	</body></html>
