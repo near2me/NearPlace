@@ -35,13 +35,14 @@
 	function selectCategory() {
 		//let cnt = 0;
 		var delta = .07
-		var p = map.getCenter()
 		//var p = nowPos
 		//map.panTo( p )
 		for( var i =0; i < icons.length; i++ ){
 			map.removeLayer( icons[i] )
 		}
 		icons = [];
+		var p = map.getCenter()
+		icons.push( map.addIcon(p.lat,p.lng, "Center", "icon-target.png", 64, 64) )
 		for( let idx = 0; idx < document.form1.category.length; idx++ ) {
 			if( document.form1.category[idx].checked ) {
 				//cnt = cnt + 1;
