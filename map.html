@@ -14,6 +14,8 @@
 	<script>
 	"use strict"
 	var map
+	var nowPos
+
 	window.onload = function() {
 		map = initMap('mapid')
 		map.setZoom(12)
@@ -24,14 +26,18 @@
 			const pos = [ gpos.coords.latitude, gpos.coords.longitude ]
 			current.setLatLng(pos)
 			map.panTo(pos)
+			//nowPos = pos
 		}, function() {
 		})
 	}
+
 	var icons = [];
-	function myCheck() {
+	function selectCategory() {
 		//let cnt = 0;
-		var delta = .05
+		var delta = .07
 		var p = map.getCenter()
+		//var p = nowPos
+		//map.panTo( p )
 		for( var i =0; i < icons.length; i++ ){
 			map.removeLayer( icons[i] )
 		}
@@ -53,12 +59,13 @@
 		}
 		//alert(  cnt + "個のボタンおしたよ！");
 	}
+
 	</script>
 	<style>
-	body { margin: 0; font-family: sans-serif; text-align: center; }
-	h1 { font-size: 5vw; margin: 0; }
+	body { margin: 0; font-family: sans-serif;  }
+	h1 { font-size: 3vw; margin: 0; }
 	form { font-size: 25px; }
-	#mapid { height: 50vh; }
+	#mapid { height: 75vh; width: 100vh; }
 	</style></head><body>
 	
 	<h1>近くにある施設は・・・</h1>
@@ -69,6 +76,6 @@
 		<input type="checkbox" name="category" value="hospital">病院
 		<input type="checkbox" name="category" value="library">図書館
 		<input type="checkbox" name="category" value="station">駅
-		<input type="button" value="選択" onclick="myCheck();">
+		<input type="button" value="選択" onclick="selectCategory();">
 	</form>
 	</body></html>
