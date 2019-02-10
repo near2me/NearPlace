@@ -20,7 +20,6 @@ window.onload = function() {
 	map = initMap('mapid')
 	map.setZoom(12)
 	map.panTo([ 35.943560,136.188917 ]) // 鯖江駅
-//	map.addIcon(35.943560,136.188917, "鯖江駅")
 
 	var current = map.addIcon(35.929991,136.186429, "現在地", "icon-walking.png", 64, 64)
 
@@ -29,34 +28,8 @@ window.onload = function() {
 		const pos = [ gpos.coords.latitude, gpos.coords.longitude ]
 		current.setLatLng(pos)
 		map.panTo(pos)
-		/*
-		if (firstflg) {
-			firstflg = false
-			showIcons()
-		}
-		*/	
 	}, function() {
-//		showIcons()
 	})
-/*
-	const showIcons = function() {
-
-		var delta = .05;
-		var p = map.getCenter()
-		var que = replaceQuery( query, p, delta);
-
-		for( let idx = 0; idx < arrayQuery.length; idx++ ) {
-			que = replaceQuery( arrayQuery[idx][0], p, delta );
-			querySPARQL(que, function(data) {
-				var items = data.results.bindings;
-				for (var i = 0; i < items.length; i++) {
-					var item = items[i];
-					map.addIcon(item.lat.value, item.lng.value, item.name.value, arrayQuery[idx][1], 32, 32);
-				}
-			});
-		}
-	}
-*/
 }
 
 var icons = [];
@@ -91,11 +64,11 @@ function myCheck() {
 
 body { margin: 0; font-family: sans-serif; text-align: center; }
 h1 { font-size: 5vw; margin: 0; }
-#mapid { height: 60vh; }
+#mapid { height: 50vh; }
 
 </style></head><body>
 
-<h1>近くにあるもの</h1>
+<h1>近くにある施設は・・・</h1>
 <div id="mapid"></div>
 <form name="form1">
 	<input type="checkbox" name="category" value="school">学校
